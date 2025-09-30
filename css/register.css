@@ -1,107 +1,206 @@
-@CHARSET "ISO-8859-1";
-/**
- * MCCodes Version 2.0.5b
- * Copyright (C) 2005-2012 Dabomstew
- * All rights reserved.
- *
- * Redistribution of this code in any form is prohibited, except in
- * the specific cases set out in the MCCodes Customer License.
- *
- * This code license may be used to run one (1) game.
- * A game is defined as the set of users and other game database data,
- * so you are permitted to create alternative clients for your game.
- *
- * If you did not obtain this code from MCCodes.com, you are in all likelihood
- * using it illegally. Please contact MCCodes to discuss licensing options
- * in this case.
- *
- * File: css/register.css
- * Signature: ee13a1eed2e4bf7902ac57305a6820a8
- * Date: Fri, 20 Apr 12 08:50:30 +0000
- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --hero-primary: #3b82f6;
+  --hero-secondary: #1d4ed8;
+  --villain-primary: #dc2626;
+  --villain-secondary: #991b1b;
+  --neutral-bg: #0f172a;
+  --neutral-surface: #1e293b;
+  --neutral-border: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-	background-color: #DEDEDE;
-	margin-top: 0;
-	margin-bottom: 0;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
+  background: linear-gradient(135deg, var(--neutral-bg) 0%, #0c1426 100%);
+  margin: 0;
+  padding: 24px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  min-height: 100vh;
 }
 
-.lgrad {
-	background-image: url("../lgrad.jpg");
-	background-repeat: repeat-y;
-	width: 19px;
+.register-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--neutral-surface);
+  border: 1px solid var(--neutral-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
 }
 
-.linegrad {
-	background-image: url(../linegrad.PNG);
-	background-repeat: repeat-y;
-	background-position: center;
-	width: 2px;
+.register-header {
+  background: linear-gradient(135deg, var(--hero-primary), var(--villain-primary));
+  padding: 32px;
+  text-align: center;
+  color: white;
 }
 
-.rgrad {
-	background-image: url(../rgrad.jpg);
-	background-repeat: repeat-y;
-	width: 19px;
+.game-logo {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
-.dgrad {
-	background-image: url(../dgrad.jpg);
-	background-repeat: repeat-x;
-	height: 38px;
+.register-subtitle {
+  font-size: 16px;
+  opacity: 0.9;
 }
 
-.dgradl {
-	background-image: url(../dgradl.jpg);
-	background-repeat: no-repeat;
-	height: 38px;
-	width: 38px;
+.register-form {
+  padding: 32px;
 }
 
-.dgradr {
-	background-image: url(../dgradr.jpg);
-	background-repeat: no-repeat;
-	height: 38px;
-	width: 38px;
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--neutral-bg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--neutral-border);
 }
 
-.center {
-	width: 932px;
-	background-color: #FFFFFF;
-	vertical-align: top;
-	text-align: center;
+.form-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-input {
+  padding: 10px 14px;
+  background: var(--neutral-surface);
+  border: 1px solid var(--neutral-border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--hero-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-select {
+  padding: 10px 14px;
+  background: var(--neutral-surface);
+  border: 1px solid var(--neutral-border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-family: inherit;
+}
+
+.validation-result {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--hero-primary), var(--hero-secondary));
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.register-footer {
+  padding: 24px 32px;
+  background: var(--neutral-bg);
+  text-align: center;
+  border-top: 1px solid var(--neutral-border);
+}
+
+.register-footer a {
+  color: var(--hero-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-footer a:hover {
+  color: var(--hero-secondary);
+}
+
+/* Legacy compatibility */
+.lgrad, .rgrad, .dgrad, .dgradl, .dgradr, .linegrad, .center, .table2 {
+  display: none;
 }
 
 .table {
-	background-color: #000000;
-}
-
-.table td {
-	background-color: #DEDEDE;
-	height: 22px;
-}
-
-.table3 td {
-	background-color: #CCCCCC;
-}
-
-td .alt {
-	background-color: #EEEEEE;
-	height: 22px;
-}
-
-td .h {
-	background-image: url(../tablehgrad.png);
-	background-repeat: repeat-x;
-	font-weight: bold;
-	background-color: #D6D6D6;
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--neutral-bg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
 .table th {
-	background-image: url(../tablehgrad.png);
-	background-repeat: repeat-x;
-	font-weight: bold;
-	background-color: #D6D6D6;
+  background: var(--neutral-border);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--neutral-border);
+  background: var(--neutral-surface);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    margin: 0;
+    border-radius: 0;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .register-header,
+  .register-form {
+    padding: 24px;
+  }
 }

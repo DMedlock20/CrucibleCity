@@ -2,29 +2,12 @@
 declare(strict_types=1);
 
 /**
- * MCCodes Version 2.0.5b
- * Copyright (C) 2005-2012 Dabomstew
- * All rights reserved.
- *
- * Redistribution of this code in any form is prohibited, except in
- * the specific cases set out in the MCCodes Customer License.
- *
- * This code license may be used to run one (1) game.
- * A game is defined as the set of users and other game database data,
- * so you are permitted to create alternative clients for your game.
- *
- * If you did not obtain this code from MCCodes.com, you are in all likelihood
- * using it illegally. Please contact MCCodes to discuss licensing options
- * in this case.
- *
- * File: header.php
- * Signature: 52c201ce2e8c549ae70d2936473022f0
- * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * MCCodes Version 2.0.5b - Heroes vs Villains Theme
+ * Modern redesign with three-column layout
  */
 
 class headers
 {
-
     /**
      * @return void
      */
@@ -32,19 +15,18 @@ class headers
     {
         global $set;
         echo <<<EOF
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="css/game.css" type="text/css" rel="stylesheet" />
-<title>{$set['game_name']}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$set['game_name']} - Heroes vs Villains</title>
+    <link href="css/game.css" type="text/css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
-<center>
-<table width="970" border="0" cellpadding="0" cellspacing="0" class="table2">
-<tr>
-<td class="lgrad"></td>
-<td class="center">
+<div class="game-container">
 EOF;
     }
 
@@ -64,14 +46,16 @@ EOF;
             "UPDATE `users`
                  SET `laston` = {$_SERVER['REQUEST_TIME']}, `lastip` = '$IP'
                  WHERE `userid` = $userid");
+        
         if (!$ir['email']) {
             global $domain;
-            die(
-            "<body>Your account may be broken. Please mail help@{$domain} stating your username and player ID.");
+            die("<body>Your account may be broken. Please mail help@{$domain} stating your username and player ID.");
         }
+        
         if (!isset($_SESSION['attacking'])) {
             $_SESSION['attacking'] = 0;
         }
+        
         if ($dosessh && ($_SESSION['attacking'] || $ir['attacking'])) {
             echo 'You lost all your EXP for running from the fight.';
             $db->query(
@@ -80,114 +64,143 @@ EOF;
                      WHERE `userid` = $userid");
             $_SESSION['attacking'] = 0;
         }
+
+        // Calculate percentages for progress bars
         $enperc = min((int)($ir['energy'] / $ir['maxenergy'] * 100), 100);
         $wiperc = min((int)($ir['will'] / $ir['maxwill'] * 100), 100);
         $experc = min((int)($ir['exp'] / $ir['exp_needed'] * 100), 100);
         $brperc = min((int)($ir['brave'] / $ir['maxbrave'] * 100), 100);
         $hpperc = min((int)($ir['hp'] / $ir['maxhp'] * 100), 100);
-        $enopp  = 100 - $enperc;
-        $wiopp  = 100 - $wiperc;
-        $exopp  = 100 - $experc;
-        $bropp  = 100 - $brperc;
-        $hpopp  = 100 - $hpperc;
-        $d      = '';
-        $u      = $ir['username'];
-        if ($ir['donatordays']) {
-            $u = "<span style='color: red;'>{$ir['username']}</span>";
-            $d =
-                "<img src='donator.gif'
-                     alt='Donator: {$ir['donatordays']} Days Left'
-                     title='Donator: {$ir['donatordays']} Days Left' />";
-        }
 
-        $gn = '';
-        $bgcolor = 'FFFFFF';
+        $donator_badge = $ir['donatordays'] ? '<span class="donator-badge">DONATOR</span>' : '';
+        $player_name_class = $ir['donatordays'] ? 'text-warning' : '';
 
-        print
-            <<<OUT
-<img src="title.jpg" alt="Mccodes Version 2" /><br />
-<!-- Begin Main Content -->
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td width="20%" bgcolor="#$bgcolor" valign="top">
-<!-- Side Panel -->
-<b>Name:</b> $gn{$u} [{$ir['userid']}] $d<br />
-<b>Money:</b> {$fm}<br />
-<b>Level:</b> {$ir['level']}<br />
-<b>Crystals:</b> {$ir['crystals']}<br />
-[<a href='logout.php'>Emergency Logout</a>]
-<hr />
-<b>Energy:</b> {$enperc}%<br />
-<img src='greenbar.png' width='$enperc' height='10' /><img src='redbar.png' width='$enopp' height='10' /><br />
-<b>Will:</b> {$wiperc}%<br />
-<img src='bluebar.png' width='$wiperc' height='10' /><img src='redbar.png' width='$wiopp' height='10' /><br />
-<b>Brave:</b> {$ir['brave']}/{$ir['maxbrave']}<br />
-<img src='yellowbar.png' width='$brperc' height='10' /><img src='redbar.png' width='$bropp' height='10' /><br />
-<b>EXP:</b> {$experc}%<br />
-<img src='bluebar.png' width='$experc' height='10' /><img src='redbar.png' width='$exopp' height='10' /><br />
-<b>Health:</b> {$hpperc}%<br />
-<img src='greenbar.png' width='$hpperc' height='10' /><img src='redbar.png' width='$hpopp' height='10' /><br /><hr />
-<!-- Links -->
-OUT;
+        echo <<<EOF
+    <header class="game-header">
+        <div class="game-logo">Heroes vs Villains</div>
+        <div class="game-title">{$set['game_name']}</div>
+        <a href="logout.php" class="emergency-logout">Emergency Logout</a>
+    </header>
+
+    <aside class="sidebar sidebar-left">
+        <div class="player-info">
+            <div class="player-name {$player_name_class}">
+                {$ir['username']} 
+                <span class="player-id">[{$ir['userid']}]</span>
+                {$donator_badge}
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-label">Money</span>
+                <span class="stat-value">{$fm}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Level</span>
+                <span class="stat-value">{$ir['level']}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Crystals</span>
+                <span class="stat-value">{$ir['crystals']}</span>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Energy</span>
+                    <span>{$enperc}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-energy" style="width: {$enperc}%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Will</span>
+                    <span>{$wiperc}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-will" style="width: {$wiperc}%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Brave</span>
+                    <span>{$ir['brave']}/{$ir['maxbrave']}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-brave" style="width: {$brperc}%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Experience</span>
+                    <span>{$experc}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-exp" style="width: {$experc}%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Health</span>
+                    <span>{$hpperc}%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill progress-health" style="width: {$hpperc}%"></div>
+                </div>
+            </div>
+        </div>
+EOF;
+
         if ($ir['fedjail'] > 0) {
-            $q =
-                $db->query(
-                    "SELECT *
-                             FROM `fedjail`
-                             WHERE `fed_userid` = $userid");
+            $q = $db->query("SELECT * FROM `fedjail` WHERE `fed_userid` = $userid");
             $r = $db->fetch_row($q);
-            die(
-            "<span style='font-weight: bold; color:red;'>
-                    You have been put in the {$set['game_name']} Federal Jail
-                     for {$r['fed_days']} day(s).<br />
-                    Reason: {$r['fed_reason']}
-                    </span></body></html>");
+            die("<div class='card'><div class='status-jail'>You have been put in the {$set['game_name']} Federal Jail for {$r['fed_days']} day(s).<br />Reason: {$r['fed_reason']}</div></div></body></html>");
         }
+        
         if (file_exists('ipbans/' . $IP)) {
-            die(
-            "<span style='font-weight: bold; color:red;'>
-                    Your IP has been banned from {$set['game_name']},
-                     there is no way around this.
-                    </span></body></html>");
+            die("<div class='card'><div class='status-jail'>Your IP has been banned from {$set['game_name']}, there is no way around this.</div></div></body></html>");
         }
     }
 
     /**
      * @return void
-     * @noinspection SpellCheckingInspection
      */
     public function menuarea(): void
     {
         define('JDSF45TJI', true);
         include 'mainmenu.php';
         global $ir, $set;
-        $bgcolor = 'FFFFFF';
-        print
-            '</td><td width="2" class="linegrad" bgcolor="#' . $bgcolor
-            . '">&nbsp;</td><td width="80%"  bgcolor="#'
-            . $bgcolor . '" valign="top"><br /><center>';
+        
+        echo '</aside>';
+        echo '<main class="main-content">';
+        
         if ($ir['hospital']) {
-            echo "<b>NB:</b> You are currently in hospital for {$ir['hospital']} minutes.<br />";
+            echo "<div class='card'><div class='status-hospital'>⚕️ You are currently in hospital for {$ir['hospital']} minutes.</div></div>";
         }
         if ($ir['jail']) {
-            echo "<b>NB:</b> You are currently in jail for {$ir['jail']} minutes.<br />";
+            echo "<div class='card'><div class='status-jail'>🔒 You are currently in jail for {$ir['jail']} minutes.</div></div>";
         }
-        echo "<a href='donator.php'><b>Donate to {$set['game_name']} now for game benefits!</b></a><br />";
+        
+        echo "<div class='card'><div class='text-center'><a href='donator.php' class='btn btn-primary'>💎 Donate to {$set['game_name']} for game benefits!</a></div></div>";
     }
 
     /**
      * @return void
-     * @noinspection SpellCheckingInspection
      */
     public function smenuarea(): void
     {
         define('JDSF45TJI', true);
         include 'smenu.php';
-        $bgcolor = 'FFFFFF';
-        print
-            '</td><td width="2" class="linegrad" bgcolor="#' . $bgcolor
-            . '">&nbsp;</td><td width="80%"  bgcolor="#'
-            . $bgcolor . '" valign="top"><center>';
+        echo '</aside>';
+        echo '<main class="main-content">';
     }
 
     /**
@@ -200,28 +213,21 @@ OUT;
         if (isset($_GET['mysqldebug']) && check_access('administrator')) {
             $query_extra = '<br />' . implode('<br />', $db->queries);
         }
-        print
-            <<<OUT
-</center>
-</td>
-</tr>
-</table></td>
-<td class="rgrad"></td>
-</tr>
-<tr>
-<td colspan="3">
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-<tr>
-<td class="dgradl">&nbsp;</td>
-<td class="dgrad">&nbsp;</td>
-<td class="dgradr">&nbsp;</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-                {$db->num_queries} queries{$query_extra}</body>
+        
+        echo <<<EOF
+    </main>
+    
+    <aside class="sidebar sidebar-right">
+        <div>Future content area</div>
+    </aside>
+</div>
+
+<div style="position: fixed; bottom: 16px; right: 16px; background: var(--neutral-surface); padding: 8px 12px; border-radius: 6px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--neutral-border);">
+    {$db->num_queries} queries{$query_extra}
+</div>
+
+</body>
 </html>
-OUT;
+EOF;
     }
 }

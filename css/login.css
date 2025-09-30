@@ -1,135 +1,161 @@
-@CHARSET "ISO-8859-1";
-/**
- * MCCodes Version 2.0.5b
- * Copyright (C) 2005-2012 Dabomstew
- * All rights reserved.
- *
- * Redistribution of this code in any form is prohibited, except in
- * the specific cases set out in the MCCodes Customer License.
- *
- * This code license may be used to run one (1) game.
- * A game is defined as the set of users and other game database data,
- * so you are permitted to create alternative clients for your game.
- *
- * If you did not obtain this code from MCCodes.com, you are in all likelihood
- * using it illegally. Please contact MCCodes to discuss licensing options
- * in this case.
- *
- * File: css/login.css
- * Signature: cbae5999fc5ee7f66abb1dfeb0c0db49
- * Date: Fri, 20 Apr 12 08:50:30 +0000
- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --hero-primary: #3b82f6;
+  --hero-secondary: #1d4ed8;
+  --villain-primary: #dc2626;
+  --villain-secondary: #991b1b;
+  --neutral-bg: #0f172a;
+  --neutral-surface: #1e293b;
+  --neutral-border: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-	background-color: #DEDEDE;
-	margin-top: 0;
-	margin-bottom: 0;
-	font-family: calibri, helvetica, arial, geneva, sans-serif;
-	font-size: 12px;
-	color: black;
-	scrollbar-base-color: #005B70;
-	scrollbar-arrow-color: #F3960B;
-	scrollbar-DarkShadow-Color: #000000;
+  background: linear-gradient(135deg, var(--neutral-bg) 0%, #0c1426 100%);
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-a:visited,a:active,a:hover,a:link {
-	color: black;
-	text-decoration: none;
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background: var(--neutral-surface);
+  border: 1px solid var(--neutral-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
 }
 
-table,tr,td {
-	font-family: helvetica, arial, geneva, sans-serif;
-	font-size: 12px;
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.game-logo {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--hero-primary), var(--villain-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.game-subtitle {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--neutral-bg);
+  border: 1px solid var(--neutral-border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--hero-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  width: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--hero-primary), var(--hero-secondary));
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--neutral-border);
+}
+
+.login-footer a {
+  color: var(--hero-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-footer a:hover {
+  color: var(--hero-secondary);
+}
+
+/* Legacy compatibility */
+.lgrad, .rgrad, .dgrad, .dgradl, .dgradr, .linegrad, .center, .table2 {
+  display: none;
+}
+
+table, tr, td {
+  font-family: inherit;
+  font-size: inherit;
 }
 
 img {
-	border: none;
+  border: none;
 }
 
 textarea {
-	font-family: helvetica, arial, geneva, sans-serif;
-	font-size: 12px;
-	color: black;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--text-primary);
 }
 
-.table2 {
-
-}
-
-.lgrad {
-	background-image: url("../lgrad.jpg");
-	background-repeat: repeat-y;
-	width: 19px;
-}
-
-.linegrad {
-	background-image: url(../linegrad.PNG);
-	background-repeat: repeat-y;
-	background-position: center;
-	width: 2px;
-}
-
-.rgrad {
-	background-image: url(../rgrad.jpg);
-	background-repeat: repeat-y;
-	width: 19px;
-}
-
-.dgrad {
-	background-image: url(../dgrad.jpg);
-	background-repeat: repeat-x;
-	height: 38px;
-}
-
-.dgradl {
-	background-image: url(../dgradl.jpg);
-	background-repeat: no-repeat;
-	height: 38px;
-	width: 38px;
-}
-
-.dgradr {
-	background-image: url(../dgradr.jpg);
-	background-repeat: no-repeat;
-	height: 38px;
-	width: 38px;
-}
-
-.center {
-	width: 932px;
-	background-color: #FFFFFF;
-	vertical-align: top;
-	text-align: center;
-}
-
-.table {
-	background-color: #000000;
-}
-
-.table td {
-	background-color: #DEDEDE;
-	height: 22px;
-}
-
-.table3 td {
-	background-color: #CCCCCC;
-}
-
-td .alt {
-	background-color: #EEEEEE;
-	height: 22px;
-}
-
-td .h {
-	background-image: url(../tablehgrad.png);
-	background-repeat: repeat-x;
-	font-weight: bold;
-	background-color: #D6D6D6;
-}
-
-.table th {
-	background-image: url(../tablehgrad.png);
-	background-repeat: repeat-x;
-	font-weight: bold;
-	background-color: #D6D6D6;
+a:visited, a:active, a:hover, a:link {
+  color: var(--hero-primary);
+  text-decoration: none;
 }
